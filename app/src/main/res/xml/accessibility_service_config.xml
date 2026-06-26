@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    packageNames is intentionally OMITTED so the service monitors ALL apps.
+    Auto-accept runs on text detection alone, regardless of which app is open.
+    Only com.smartorders.engine and com.jeenyultimate.helper are excluded in code.
+-->
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:accessibilityEventTypes="typeWindowContentChanged|typeWindowStateChanged|typeViewTextChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
