@@ -1,47 +1,35 @@
-name: Android CI Build Debug APK
+name: Android Build
 
-  on:
-    push:
-      branches:
-        - main
-        - master
-    workflow_dispatch:
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
 
-  jobs:
-    build:
-      name: Build Debug APK
-      runs-on: ubuntu-latest
+jobs:
+  build:
+    name: Build Debug APK
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Set up JDK 17
-          uses: actions/setup-java@v4
-          with:
-            java-version: '17'
-            distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-        - name: Install Gradle 8.4
-          run: |
-            wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip -O /tmp/gradle.zip
-            unzip -q /tmp/gradle.zip -d /opt/gradle
-            echo "/opt/gradle/gradle-8.4/bin" >> $GITHUB_PATH
+      - name: Install Gradle 8.4 and build APK
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip -O /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt/gradle
+          /opt/gradle/gradle-8.4/bin/gradle assembleDebug --stacktrace
 
-        - name: Verify Gradle
-          run: gradle --version
-
-        - name: Make gradlew executable
-          run: chmod +x ./gradlew
-
-        - name: Build Debug APK
-          run: gradle assembleDebug --stacktrace
-
-        - name: Upload Debug APK
-          uses: actions/upload-artifact@v4
-          with:
-            name: SmartOrdersEngine-debug-apk
-            path: app/build/outputs/apk/debug/*.apk
-            retention-days: 30
-            if-no-files-found: error
-  
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SmartOrdersEngine-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 30
+          if-no-files-found: error
