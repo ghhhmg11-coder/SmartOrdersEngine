@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background -->
+    <color name="bg_primary">#0F1117</color>
+    <color name="bg_card">#1A1D27</color>
+    <color name="bg_card_green">#0F2018</color>
+    <color name="bg_card_red">#200F0F</color>
+    <color name="bg_card_blue">#0F1620</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#8A8FA8</color>
+
+    <!-- Accent -->
+    <color name="accent_blue">#3E7BFA</color>
+    <color name="accent_gold">#F5A623</color>
+
+    <!-- Status -->
+    <color name="green_match">#2ECC71</color>
+    <color name="red_reject">#E74C3C</color>
+    <color name="yellow_warning">#F39C12</color>
+
+    <!-- UI -->
+    <color name="divider">#252836</color>
+    <color name="bottom_nav_selected">#3E7BFA</color>
+    <color name="bottom_nav_unselected">#5C617A</color>
+
+    <!-- System -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

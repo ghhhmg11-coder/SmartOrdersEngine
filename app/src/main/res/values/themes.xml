@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.SmartOrdersEngine" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/accent_blue</item>
+        <item name="colorPrimaryVariant">@color/bg_card</item>
+        <item name="colorOnPrimary">@color/text_primary</item>
+        <item name="colorSecondary">@color/accent_gold</item>
+        <item name="colorSecondaryVariant">@color/accent_gold</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:colorBackground">@color/bg_primary</item>
+        <item name="android:statusBarColor">@color/bg_primary</item>
+        <item name="android:navigationBarColor">@color/bg_card</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="SwitchStyle" parent="Theme.MaterialComponents.DayNight">
+        <item name="colorControlActivated">@color/accent_blue</item>
+        <item name="colorSwitchThumbNormal">@color/text_secondary</item>
+        <item name="android:colorForeground">@color/bg_card</item>
+    </style>
+
+</resources>

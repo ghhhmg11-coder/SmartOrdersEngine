@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Smart Orders Engine</string>
+    <string name="service_label">Smart Orders Accessibility Service</string>
+    <string name="service_description">يقرأ هذا الخدمة النصوص المرئية على الشاشة لاكتشاف طلبات الرحلات تلقائياً</string>
+    <string name="nav_dashboard">لوحة</string>
+    <string name="nav_debug">تشخيص</string>
+    <string name="nav_settings">إعدادات</string>
+    <string name="debug_no_data">لا توجد بيانات بعد. فعّل الخدمة أو شغّل وضع العرض التجريبي.</string>
+    <string name="notification_channel_name">طلبات الرحلات</string>
+    <string name="notification_matched_title">طلب مناسب</string>
+</resources>
