@@ -131,50 +131,70 @@ class SmartOrdersService : AccessibilityService() {
     // ----------------------------------------------------------------
 
     /**
-     * Searches the node tree for any node whose text or content-description
-     * matches an accept keyword, then attempts to click it (or its clickable
-     * parent, or fires a tap gesture as last resort).
+     * Finds the accept button node by text, resolves its screen bounds,
+     * and dispatches a physical finger-tap gesture directly on its centre.
+     *
+     * ACTION_CLICK is intentionally skipped: Jeeny's accept button has an
+     * animated ProgressBar overlay that intercepts programmatic clicks.
+     * dispatchGesture() injects a raw touch event that bypasses the view
+     * hierarchy and reaches the button regardless of overlays.
      */
     private fun findAndClickAcceptButton(root: AccessibilityNodeInfo): Boolean {
         for (keyword in ACCEPT_KEYWORDS) {
             val nodes = root.findAccessibilityNodeInfosByText(keyword)
             if (!nodes.isNullOrEmpty()) {
                 for (node in nodes) {
-                    if (executeClickOrGesture(node)) return true
+                    val bounds = resolveButtonBounds(node) ?: continue
+                    val tapped = dispatchTap(
+                        bounds.centerX().toFloat(),
+                        bounds.centerY().toFloat()
+                    )
+                    if (tapped) {
+                        AppRepository.lastAutoAcceptResult.postValue(
+                            "✓ Gesture tap → (${bounds.centerX()}, ${bounds.centerY()}) — \"$keyword\""
+                        )
+                        return true
+                    }
                 }
             }
         }
         return false
     }
 
-    private fun executeClickOrGesture(node: AccessibilityNodeInfo): Boolean {
-        // 1. Direct click on the node
-        if (node.isClickable) {
-            return node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-        }
+    /**
+     * Returns the best non-empty Rect for a node.
+     * Walks up the parent chain (up to 4 levels) if the node's own bounds
+     * are zero-sized (e.g. a text node inside a container).
+     */
+    private fun resolveButtonBounds(node: AccessibilityNodeInfo): Rect? {
+        val bounds = Rect()
 
-        // 2. Try the parent chain (up to 3 levels)
+        // Try the node itself first
+        node.getBoundsInScreen(bounds)
+        if (bounds.width() > 0 && bounds.height() > 0) return bounds
+
+        // Walk up the parent chain
         var ancestor: AccessibilityNodeInfo? = node.parent
-        repeat(3) {
-            if (ancestor != null && ancestor!!.isClickable) {
-                return ancestor!!.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-            }
+        repeat(4) {
+            ancestor?.getBoundsInScreen(bounds)
+            if (bounds.width() > 0 && bounds.height() > 0) return bounds
             ancestor = ancestor?.parent
         }
+        return null
+    }
 
-        // 3. Tap gesture as a last resort
-        val bounds = Rect()
-        node.getBoundsInScreen(bounds)
-        val cx = bounds.centerX().toFloat()
-        val cy = bounds.centerY().toFloat()
-        if (cx > 0f && cy > 0f) {
-            val path = Path().apply { moveTo(cx, cy) }
-            val gesture = GestureDescription.Builder()
-                .addStroke(GestureDescription.StrokeDescription(path, 0, 40))
-                .build()
-            return dispatchGesture(gesture, null, null)
-        }
-        return false
+    /**
+     * Dispatches a realistic finger-tap gesture at (x, y).
+     * Duration of 120 ms mimics a natural press — long enough for the
+     * touch system to register it, short enough not to trigger long-press.
+     */
+    private fun dispatchTap(x: Float, y: Float): Boolean {
+        if (x <= 0f || y <= 0f) return false
+        val path = Path().apply { moveTo(x, y) }
+        val gesture = GestureDescription.Builder()
+            .addStroke(GestureDescription.StrokeDescription(path, 0L, 120L))
+            .build()
+        return dispatchGesture(gesture, null, null)
     }
 
     // ----------------------------------------------------------------
