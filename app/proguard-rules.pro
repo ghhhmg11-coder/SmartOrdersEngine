@@ -1,4 +1,1 @@
--keep class com.smartorders.engine.** { *; }
--keepclassmembers class * {
-    @android.webkit.JavascriptInterface <methods>;
-}
+# Add project specific ProGuard rules here.

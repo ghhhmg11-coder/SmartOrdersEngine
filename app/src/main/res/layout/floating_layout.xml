@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:orientation="horizontal" android:gravity="center_vertical" android:padding="5dp">
+    <Button android:id="@+id/btn_floating_head" android:layout_width="50dp" android:layout_height="50dp"
+        android:text="J" android:textColor="#FFFFFF" android:background="@android:drawable/btn_default" android:backgroundTint="#6200EE" />
+    <LinearLayout android:id="@+id/layout_menu" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:orientation="vertical" android:background="#FFFFFF" android:elevation="4dp" android:padding="8dp" android:visibility="gone" android:layout_marginStart="5dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="القبول التلقائي" android:textColor="#000000" android:textSize="12sp" android:textStyle="bold" />
+        <Switch android:id="@+id/switch_auto_accept" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="5dp" />
+    </LinearLayout>
+</LinearLayout>
