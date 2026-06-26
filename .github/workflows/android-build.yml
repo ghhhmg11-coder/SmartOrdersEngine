@@ -1,4 +1,4 @@
-name: Android CI — Build Debug APK
+name: Android CI Build Debug APK
 
   on:
     push:
@@ -22,19 +22,20 @@ name: Android CI — Build Debug APK
             java-version: '17'
             distribution: 'temurin'
 
-        - name: Setup Gradle 8.4
-          uses: gradle/actions/setup-gradle@v3
-          with:
-            gradle-version: '8.4'
+        - name: Install Gradle 8.4
+          run: |
+            wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip -O /tmp/gradle.zip
+            unzip -q /tmp/gradle.zip -d /opt/gradle
+            echo "/opt/gradle/gradle-8.4/bin" >> $GITHUB_PATH
 
-        - name: Generate Gradle Wrapper
-          run: gradle wrapper --gradle-version 8.4 --distribution-type bin
+        - name: Verify Gradle
+          run: gradle --version
 
         - name: Make gradlew executable
           run: chmod +x ./gradlew
 
         - name: Build Debug APK
-          run: ./gradlew assembleDebug --stacktrace
+          run: gradle assembleDebug --stacktrace
 
         - name: Upload Debug APK
           uses: actions/upload-artifact@v4
